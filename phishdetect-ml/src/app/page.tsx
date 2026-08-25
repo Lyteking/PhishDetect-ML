@@ -101,67 +101,79 @@ export default function Home() {
         <div className="lg:col-span-2">
           {result ? (
             <div className="space-y-6">
-              {/* Primary Verdict Card */}
-              <div className={`p-6 rounded-xl border ${result.isPhishing ? 'bg-cyber-danger/10 border-cyber-danger' : 'bg-cyber-safe/10 border-cyber-safe'} flex items-start gap-6 transition-all duration-500`}>
-                <div className={`p-4 rounded-full ${result.isPhishing ? 'bg-cyber-danger/20 text-cyber-danger' : 'bg-cyber-safe/20 text-cyber-safe'}`}>
-                  {result.isPhishing ? <ShieldAlert className="w-10 h-10" /> : <Shield className="w-10 h-10" />}
-                </div>
-                <div>
-                  <h2 className={`text-2xl font-bold mb-1 ${result.isPhishing ? 'text-cyber-danger' : 'text-cyber-safe'}`}>
+              
+              {/* Primary Verdict Card - MOBILE OPTIMIZED */}
+              <div className={`p-4 sm:p-6 rounded-xl border ${result.isPhishing ? 'bg-cyber-danger/10 border-cyber-danger' : 'bg-cyber-safe/10 border-cyber-safe'} transition-all duration-500`}>
+                
+                {/* TOP SECTION: Icon and Title aligned together */}
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className={`flex-shrink-0 p-2 sm:p-4 rounded-full ${result.isPhishing ? 'bg-cyber-danger/20 text-cyber-danger' : 'bg-cyber-safe/20 text-cyber-safe'}`}>
+                    {result.isPhishing ? <ShieldAlert className="w-8 h-8 sm:w-10 sm:h-10" /> : <Shield className="w-8 h-8 sm:w-10 sm:h-10" />}
+                  </div>
+                  <h2 className={`text-lg sm:text-2xl font-bold leading-tight uppercase ${result.isPhishing ? 'text-cyber-danger' : 'text-cyber-safe'}`}>
                     {result.isPhishing ? 'MALICIOUS DOMAIN DETECTED' : 'LEGITIMATE DOMAIN'}
                   </h2>
-                  <p className="text-cyber-light font-mono text-sm break-all mb-3">{result.url}</p>
-                  <div className="flex gap-4 text-sm">
-                    <span className="bg-cyber-dark px-3 py-1 rounded-md border border-cyber-gray">
+                </div>
+
+                {/* BOTTOM SECTION: URL and Badges stretching full width */}
+                <div className="mt-3 sm:mt-2 sm:ml-[5.5rem]">
+                  <p 
+                    className="text-cyber-light font-mono text-sm break-all line-clamp-2" 
+                    title={result.url}
+                  >
+                    {result.url}
+                  </p>
+                  <div className="flex flex-wrap gap-3 mt-4 text-sm">
+                    <span className="bg-cyber-dark px-3 py-1.5 rounded-md border border-cyber-gray">
                       Confidence: {(result.confidence * 100).toFixed(1)}%
                     </span>
-                    <span className="bg-cyber-dark px-3 py-1 rounded-md border border-cyber-gray text-cyber-light">
+                    <span className="bg-cyber-dark px-3 py-1.5 rounded-md border border-cyber-gray text-cyber-light">
                       Time: {new Date(result.timestamp).toLocaleTimeString()}
                     </span>
                   </div>
                 </div>
+
               </div>
 
               {/* Diagnostic Breakdown */}
               <div className="bg-cyber-gray/50 border border-cyber-gray rounded-xl overflow-hidden">
                 <div className="px-6 py-4 border-b border-cyber-gray bg-cyber-gray/30">
                   <h3 className="font-semibold">Feature Extraction Diagnostics</h3>
-                  <p className="text-xs text-cyber-light mt-1">Top 5 Information Gain Attributes Analyzed</p>
+                  <p className="text-xs text-cyber-light mt-1">Explainable AI (XAI) Feature Breakdown</p>
                 </div>
                 <div className="p-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {Object.entries(result.features).map(([key, value]) => {
               
-              // 1. Grab the exact mathematical SHAP impact from the FastAPI backend
-              const shapImpact = result.xai_diagnostics?.shap_values?.[key] || 0;
-              
-              // 2. Determine the threat level (Positive SHAP = Phishing Threat)
-              const isDanger = shapImpact > 0;
-              
-              // 3. Dynamically apply Tailwind CSS Red or Green colors
-              return (
-                <div 
-                  key={key} 
-                  className={`flex justify-between items-center p-3 border rounded-md ${
-                    isDanger 
-                      ? 'bg-red-900/20 border-red-500/50 text-red-400' 
-                      : 'bg-emerald-900/20 border-emerald-500/50 text-emerald-400'
-                  }`}
-                >
-                  <span className="font-semibold tracking-wide capitalize">
-                    {key.replace('_', ' ')}
-                  </span>
-                  <div className="text-right">
-                    <span className="block font-bold text-lg">
-                      {value === 1 ? 'Detected' : 'Clean'}
-                    </span>
-                    <span className="text-xs opacity-75">
-                      XAI Impact: {shapImpact > 0 ? '+' : ''}{shapImpact.toFixed(3)}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+                      // 1. Grab the exact mathematical SHAP impact from the FastAPI backend
+                      const shapImpact = result.xai_diagnostics?.shap_values?.[key] || 0;
+                      
+                      // 2. Determine the threat level (Positive SHAP = Phishing Threat)
+const isDanger = value === 1;                      
+                      // 3. Dynamically apply Tailwind CSS Red or Green colors (MOBILE OPTIMIZED)
+                      return (
+                        <div 
+                          key={key} 
+                          className={`flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 p-3 border rounded-md transition-colors ${
+                            isDanger 
+                              ? 'bg-red-900/20 border-red-500/50 text-red-400' 
+                              : 'bg-gray-800/30 border-gray-700/50 text-gray-300'
+                          }`}
+                        >
+                          <span className="font-semibold tracking-wide capitalize text-sm sm:text-base break-words">
+                            {key.replace(/_/g, ' ')}
+                          </span>
+                          <div className="text-left sm:text-right mt-1 sm:mt-0">
+                            <span className="block font-bold text-base sm:text-lg">
+                              {value === 1 ? 'Detected' : 'Clean'}
+                            </span>
+                            <span className="text-xs opacity-75">
+                              XAI Impact: {shapImpact > 0 ? '+' : ''}{shapImpact.toFixed(3)}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
