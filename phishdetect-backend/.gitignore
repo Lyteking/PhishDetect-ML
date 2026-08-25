@@ -1,0 +1,33 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# VS Code / IDEs
+.vscode/
+.idea/
+
+# Mac OS
+.DS_Store
+
+# --- CRITICAL PROJECT EXCEPTION ---
+# Do NOT ignore the XGBoost model file! Render needs this to run.
+!XGBoostClassifier.pickle.dat
