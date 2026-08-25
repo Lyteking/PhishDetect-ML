@@ -32,7 +32,7 @@ export default function Home() {
           <h1 className="text-3xl font-bold tracking-tight">PhishDetect<span className="text-cyber-primary">.ML</span></h1>
         </div>
         <p className="text-cyber-light max-w-2xl">
-          Real-time URL classification powered by an XGBoost & Random Forest hybrid ensemble. 
+          Real-time URL classification powered by an XGBoost ensemble. 
           Analyzes structural, domain, and client-scripting features to detect zero-day threats.
         </p>
       </header>
